@@ -20,6 +20,10 @@ class ColourConverter:
         'g': "Forest"
     }
 
+    def __init__(self, colours=None):
+        if colours:
+            self.colours = colours
+
     def __call__(self, id):
         "Convert a colour identity to a mana colour"
         return self.colours[id.lower()]
@@ -124,6 +128,8 @@ class Mainboard:
 
         keyword_query = ""
         if commander["keywords"]:
+            logging.info("Detected keywords: " +
+                         ", ".join(commander["keywords"]))
             keyword_query += "("
             keyword_query += " or ".join(
                 ["o:" + keyword for keyword in commander["keywords"]])
@@ -133,6 +139,8 @@ class Mainboard:
         # thing
         types = commander["type_line"].split(" — ")[-1]
         types = types.split()
+
+        logging.info("Detected types: " + ", ".join(types))
 
         type_query = "("
         type_query += " or ".join(["t:" + type for type in types])
