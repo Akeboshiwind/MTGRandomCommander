@@ -5,6 +5,8 @@ import scrython
 import itertools
 import time
 
+from scrython.foundation import ScryfallError
+
 MAINBOARD_COUNT = 62
 LAND_COUNT = 37
 
@@ -36,7 +38,10 @@ def search(query):
     "Performs a search to scryfall with some basic ratelimiting"
     time.sleep(0.1)
     logging.debug("Searching for: `" + query + "`")
-    return scrython.cards.Search(q=query, unique="cards", dir="asc")
+    try:
+        return scrython.cards.Search(q=query, unique="cards", dir="asc").data()
+    except ScryfallError:
+        return []
 
 
 def take(n, iterable):
@@ -62,7 +67,7 @@ def remove_duplicates(f, lst):
 
 def get_commander():
     "Get's a random commander in the top 175 commanders"
-    commanders = search("is:commander f:edh c>1").data()
+    commanders = search("is:commander f:edh c>1")
     return random.choice(commanders)
 
 
@@ -297,37 +302,39 @@ def get_lands(commander):
     fetchland_query = "is:Fetchland (" \
         + " or ".join(["o:" + colour for colour in colours]) \
         + ")"
-    result = search(fetchland_query)
+    results = search(fetchland_query)
 
-    good = good + result.data()
+    good = good + results
 
     # Shocklands
-    result = search("is:Shockland id:" + query_identity)
+    results = search("is:Shockland id:" + query_identity)
 
-    good = good + result.data()
+    good = good + results
 
     # Random lands
-    result = search(
+    results = search(
         "f:edh sort:edhrec oracletag:utility-land id:" + query_identity,)
 
     for _ in range(0, 3):
-        card = random.choice(result.data())
-        good.append(card)
+        if len(results) != 0:
+            idx = random.randint(0, len(results) - 1)
+            card = results.pop(idx)
+            good.append(card)
 
     # Checkland
-    result = search("is:Checkland id:" + query_identity)
+    results = search("is:Checkland id:" + query_identity)
 
-    good = good + result.data()
+    good = good + results
 
     # Painland
-    result = search("is:Painland id:" + query_identity)
+    results = search("is:Painland id:" + query_identity)
 
-    good = good + result.data()
+    good = good + results
 
     # Scryland
-    result = search("is:Scryland id:" + query_identity)
+    results = search("is:Scryland id:" + query_identity)
 
-    good = good + result.data()
+    good = good + results
 
     # >> Cull extra lands
 
