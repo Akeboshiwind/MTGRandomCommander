@@ -69,6 +69,146 @@ def get_commander():
 # >> Mainboard
 
 
+class CachedCards:
+    # Stores cached in this structure:
+    # {
+    #   True: {
+    #     "<=1": [],
+    #     "=2": [],
+    #     ...
+    #   },
+    #   False: ...
+    # }
+    # So cards can be retrieved like so:
+    # ```
+    # themed = True
+    # cmc = "<=1"
+    # self.cache[themed][cmc]
+    # ```
+    cache = {}
+
+    # CMCs here are in the shape that they will appear in the final query
+    allowed_cmcs = {'<=1', '=2', '=3', '=4', '=5', '=6', '>=7'}
+
+    # The list of cards that have been picked already
+    # Used to ensure we don't pick the same card twice
+    seen_cards = set()
+
+    def __init__(self, commander):
+        self.commander = commander
+        self.query_identity = "".join(commander["color_identity"])
+
+    def __build_themed_query(self, cmc):
+        # >> Keywords
+        keyword_query = ""
+        if commander["keywords"]:
+            logging.info("Detected keywords: " +
+                         ", ".join(commander["keywords"]))
+            keyword_query += "("
+            keyword_query += " or ".join(
+                ["o:" + keyword for keyword in commander["keywords"]])
+            keyword_query += ")"
+
+        # >> Type string
+        # Split by any '—' that might be in the type line and get the last
+        # thing
+        types = commander["type_line"].split(" — ")[-1]
+        types = types.split()
+
+        type_query = "("
+        type_query += " or ".join(["t:" + type for type in types])
+        type_query += ")"
+
+        theme_query = type_query
+        if keyword_query != "":
+            theme_query = "(" \
+                + keyword_query \
+                + " or " \
+                + type_query \
+                + ")"
+
+        return ("f:edh sort:edhrec {theme_query}"
+                + " -t:land -medallion id:{id} cmc{cmc}") \
+            .format(id=self.query_identity, cmc=cmc, theme_query=theme_query)
+
+    def __build_unthemed_query(self, cmc):
+        return "f:edh sort:edhrec -t:land -medallion id:{id} cmc{cmc}" \
+            .format(id=self.query_identity, cmc=cmc)
+
+    def __build_query(self, cmc, themed):
+        if themed:
+            return self.__build_themed_query(cmc)
+        else:
+            return self.__build_unthemed_query(cmc)
+
+    def __fill_cache(self, cmc, themed):
+        query = self.__build_query(cmc, themed)
+
+        try:
+            cards = search(query)
+            if logging.root.isEnabledFor(logging.DEBUG):
+                filtered_cards = [c["name"] for c in cards
+                                  if c["name"] in self.seen_cards]
+                logging.debug("filtered cards: " + ", ".join(filtered_cards))
+            # Filter out cards we've seen already
+            cards = [c for c in cards if c["name"] not in self.seen_cards]
+        except Exception:
+            # TODO: Be less generic about error handling?
+            cards = []
+
+        # Add a dict here if nessacary
+        if self.cache.get(themed) is None:
+            self.cache[themed] = {}
+
+        self.cache[themed][cmc] = cards
+
+    def __should_cleanup_cache(self, cmc, themed):
+        return self.cache.get(not themed) is not None \
+            and self.cache[not themed].get(cmc) is not None
+
+    def __cleanup_cache(self, cmc, themed, picked_card):
+        "Removes the card from all loaded caches"
+
+        # We know that the card was removed from self.cache[themed][cmc]
+        # Because the CMC is bound, we know the only other cache it will appear
+        # in is self.cache[not themed][cmc]
+        if self.__should_cleanup_cache(cmc, themed):
+            if logging.root.isEnabledFor(logging.DEBUG):
+                card_names = [c["name"] for c in self.cache[not themed][cmc]]
+                if picked_card["name"] in card_names:
+                    logging.debug("cleaned up: " + picked_card["name"])
+            cards = self.cache[not themed][cmc]
+            cards = [c for c in cards
+                     if c["name"] != picked_card["name"]]
+
+            self.cache[not themed][cmc] = cards
+
+    def __should_fill_cache(self, cmc, themed):
+        return self.cache.get(themed) is None \
+            or self.cache[themed].get(cmc) is None
+
+    def get(self, cmc, themed=False):
+        if cmc not in self.allowed_cmcs:
+            raise Exception("Not a valid CMC value")
+
+        if self.__should_fill_cache(cmc, themed):
+            self.__fill_cache(cmc, themed)
+
+        cards = self.cache[themed][cmc]
+
+        if len(cards) == 0:
+            raise Exception("Cache empty")
+
+        idx = random.randint(0, len(cards) - 1)
+        card = cards[idx]
+        cards.pop(idx)
+
+        self.__cleanup_cache(cmc, themed, card)
+        self.seen_cards.add(card["name"])
+
+        return card
+
+
 class Mainboard:
     """
     Used to get a random deck of 62 mainboard cards.
@@ -79,106 +219,9 @@ class Mainboard:
     """
 
     def __init__(self, commander, themed=False):
-        self._query_identity = "".join(commander["color_identity"])
-
-        self.cmc_cache = {
-            '<=1': [],
-            '=2': [],
-            '=3': [],
-            '=4': [],
-            '=5': [],
-            '=6': [],
-            '>=7': [],
-        }
-        self.__fill_cmc_cache()
-
         self.themed = themed
 
-        if self.themed:
-            self.themed_cmc_cache = {
-                '<=1': [],
-                '=2': [],
-                '=3': [],
-                '=4': [],
-                '=5': [],
-                '=6': [],
-                '>=7': [],
-            }
-            self.__fill_themed_cmc_cache(commander)
-
-    def __fill_cmc_cache(self):
-        for cmc in self.cmc_cache.keys():
-            # The cmc here is a little weird
-            # What I'm doing is using the key from the cmc_cache which includes
-            # both the value and the comparitor. This makes the cmc_cache a bit
-            # easier to read but makes this query a little strange.
-            query = "f:edh sort:edhrec -t:land -medallion id:{id} cmc{cmc}" \
-                .format(id=self._query_identity, cmc=cmc)
-
-            result = search(query)
-            self.cmc_cache[cmc] = result.data()
-
-    def __build_themed_query(self, commander):
-        """
-        Build the query to add to the cmc query.
-        Looks at the keywords and types on the card to try and find card that
-        synergise with your commander.
-        """
-        extra_query = ""
-
-        keyword_query = ""
-        if commander["keywords"]:
-            logging.info("Detected keywords: " +
-                         ", ".join(commander["keywords"]))
-            keyword_query += "("
-            keyword_query += " or ".join(
-                ["o:" + keyword for keyword in commander["keywords"]])
-            keyword_query += ")"
-
-        # Split by any '—' that might be in the type line and get the last
-        # thing
-        types = commander["type_line"].split(" — ")[-1]
-        types = types.split()
-
-        logging.info("Detected types: " + ", ".join(types))
-
-        type_query = "("
-        type_query += " or ".join(["t:" + type for type in types])
-        type_query += ")"
-
-        if keyword_query != "":
-            extra_query = "({keyword_query} or {type_query})" \
-                .format(keyword_query=keyword_query,
-                        type_query=type_query)
-        else:
-            extra_query = type_query
-
-        logging.debug("extra_query: " + extra_query)
-
-        return extra_query
-
-    def __fill_themed_cmc_cache(self, commander):
-        extra_query = self.__build_themed_query(commander)
-
-        for cmc in self.themed_cmc_cache.keys():
-            query = "f:edh sort:edhrec {extra_query} -t:land -medallion id:{id} cmc{cmc}" \
-                .format(id=self._query_identity, cmc=cmc,
-                        extra_query=extra_query)
-
-            result = search(query)
-            self.themed_cmc_cache[cmc] = result.data()
-
-            themed_cards = \
-                set([card["name"] for card in self.themed_cmc_cache[cmc]])
-
-            # Remove any duplicates
-            logging.debug(len(self.cmc_cache[cmc]))
-            self.cmc_cache[cmc] = \
-                [card for card in self.cmc_cache[cmc]
-                 if not card["name"] in themed_cards]
-            logging.debug(len(self.cmc_cache[cmc]))
-            assert(len(self.cmc_cache[cmc]) != 0)
-        self.cmc_cache[cmc] = result.data()
+        self.card_cache = CachedCards(commander)
 
     """
     Based off of a graph James gave me
@@ -205,16 +248,20 @@ class Mainboard:
 
         # Grab 62 cards for the deck
         for _ in range(0, MAINBOARD_COUNT):
-            cmc = self.__random_cmc()
-            # 50/50 chance for themed cards, if enabled
-            if self.themed and random.choice([True, False]):
-                card_list = self.themed_cmc_cache[cmc]
-            else:
-                card_list = self.cmc_cache[cmc]
+            picked = False
+            while not picked:
+                cmc = self.__random_cmc()
+                # 50/50 chance for themed cards, False if disabled
+                themed = self.themed and random.choice([True, False])
 
-            idx = random.randint(0, len(card_list)-1)
-            card = card_list[idx]
-            card_list.pop(idx)
+                try:
+                    card = self.card_cache.get(cmc, themed)
+                    picked = True
+                except Exception:
+                    # If we get an exception, try again
+                    # TODO: Maybe blacklist cmc & themed combos once we get an
+                    #       Exception?
+                    continue
 
             deck.append(card)
 
