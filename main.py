@@ -11,18 +11,21 @@ LAND_COUNT = 37
 # >> Utils
 
 
-colours = {
-    'w': "Plains",
-    'b': "Swamp",
-    'u': "Island",
-    'r': "Mountain",
-    'g': "Forest"
-}
+class ColourConverter:
+    colours = {
+        'w': "Plains",
+        'b': "Swamp",
+        'u': "Island",
+        'r': "Mountain",
+        'g': "Forest"
+    }
+
+    def __call__(self, id):
+        "Convert a colour identity to a mana colour"
+        return self.colours[id.lower()]
 
 
-def id_to_colour(id):
-    "Convert a colour identity to a mana colour"
-    return colours[id.lower()]
+id_to_colour = ColourConverter()
 
 
 def search(query):
