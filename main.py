@@ -266,42 +266,55 @@ class CachedCards:
     # Used to ensure we don't pick the same card twice
     seen_cards = set()
 
+    keyword_amount = 1
+    otag_amount = 1
+    atag_amount = 1
+    type_amount = 1
+
+    def __calculate_theme(self, commander):
+        # >> Keywords
+        keywords = []
+        if commander["keywords"]:
+            keywords = random.sample(commander["keywords"],
+                                     min(len(commander["keywords"]),
+                                         self.keyword_amount))
+        keywords = ["o:" + k for k in keywords]
+
+        # >> Oracle text tags
+        otags = random.sample(self.commander_tags["oracleText"],
+                              min(len(self.commander_tags["oracleText"]),
+                                  self.otag_amount))
+        otags = ["otag:" + t for t in otags]
+
+        # >> Art tags
+        atags = random.sample(self.commander_tags["illustration"],
+                              min(len(self.commander_tags["illustration"]),
+                                  self.atag_amount))
+        atags = ["atag:" + t for t in atags]
+
+        # >> Types
+        types = commander["type_line"].split(" — ")[-1]
+        types = types.split()
+        types = random.sample(types, min(len(types), self.type_amount))
+        types = ["t:" + t for t in types]
+
+        theme = keywords + otags + atags + types
+        theme = "(" + " or ".join(theme) + ")"
+
+        logging.INFO(theme)
+        return theme
+
     def __init__(self, commander):
         self.commander = commander
         self.query_identity = "".join(commander["color_identity"])
+        self.commander_tags = get_tags(commander["set"],
+                                       commander["collector_number"])
+        self.theme = self.__calculate_theme(commander)
 
     def __build_themed_query(self, cmc):
-        # >> Keywords
-        keyword_query = ""
-        if commander["keywords"]:
-            logging.info("Detected keywords: " +
-                         ", ".join(commander["keywords"]))
-            keyword_query += "("
-            keyword_query += " or ".join(
-                ["o:" + keyword for keyword in commander["keywords"]])
-            keyword_query += ")"
-
-        # >> Type string
-        # Split by any '—' that might be in the type line and get the last
-        # thing
-        types = commander["type_line"].split(" — ")[-1]
-        types = types.split()
-
-        type_query = "("
-        type_query += " or ".join(["t:" + type for type in types])
-        type_query += ")"
-
-        theme_query = type_query
-        if keyword_query != "":
-            theme_query = "(" \
-                + keyword_query \
-                + " or " \
-                + type_query \
-                + ")"
-
         return ("f:edh sort:edhrec {theme_query}"
                 + " -t:land -medallion id:{id} cmc{cmc}") \
-            .format(id=self.query_identity, cmc=cmc, theme_query=theme_query)
+            .format(id=self.query_identity, cmc=cmc, theme_query=self.theme)
 
     def __build_unthemed_query(self, cmc):
         return "f:edh sort:edhrec -t:land -medallion id:{id} cmc{cmc}" \
