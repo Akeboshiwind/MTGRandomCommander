@@ -371,7 +371,7 @@ class CachedCards:
         if len(cards) == 0:
             raise Exception("Cache empty")
 
-        idx = random.randint(0, len(cards) - 1)
+        idx = random.randint(0, len(cards))
         card = cards[idx]
         cards.pop(idx)
 
@@ -484,7 +484,7 @@ def get_lands(commander):
 
     for _ in range(0, 3):
         if len(results) != 0:
-            idx = random.randint(0, len(results) - 1)
+            idx = random.randint(0, len(results))
             card = results.pop(idx)
             good.append(card)
 
