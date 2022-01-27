@@ -1,0 +1,80 @@
+SB: 1 Noyan Dar, Roil Shaper
+1 Ghostly Flicker
+1 Murmuring Mystic
+1 Gerrard's Wisdom
+1 Clone Legion
+1 Teferi's Time Twist
+1 Cleansing Nova
+1 Eternal Dragon
+1 Ingenuity Engine
+1 Heavenly Blademaster
+1 Exert Influence
+1 Airborne Aid
+1 Late to Dinner
+1 Cavalier of Dawn
+1 Environmental Sciences
+1 Odric, Master Tactician
+1 Sakashima's Will
+1 Sleight of Hand
+1 Open into Wonder
+1 Armageddon
+1 Call the Cavalry
+1 Into the Void
+1 Foresight
+1 Sol Ring
+1 Recruiter of the Guard
+1 Battle Screech
+1 Springleaf Drum
+1 Kraken of the Straits
+1 Bribery
+1 Crib Swap
+1 Balance of Power
+1 Doomed Traveler
+1 Acquire
+1 Iona's Judgment
+1 Knowledge Exploitation
+1 Baird, Steward of Argive
+1 Darksteel Plate
+1 Remember the Fallen
+1 Heliod, Sun-Crowned
+1 Dramatic Reversal
+1 Agent of Treachery
+1 Petals of Insight
+1 Helm of the Gods
+1 Serra Ascendant
+1 Dematerialize
+1 Gravitational Shift
+1 Unesh, Criosphinx Sovereign
+1 Temporal Manipulation
+1 Abzan Battle Priest
+1 Brass Squire
+1 Jazal Goldmane
+1 Brain in a Jar
+1 Slinn Voda, the Rising Deep
+1 Song of the Worldsoul
+1 Glare of Heresy
+1 Mordenkainen
+1 Sigarda's Summons
+1 Behold the Multiverse
+1 Cut the Tethers
+1 Stolen Identity
+1 Rod of Absorption
+1 Introduction to Prophecy
+1 Loreseeker's Stone
+1 Access Tunnel
+1 Adarkar Wastes
+1 Arid Mesa
+1 Command Tower
+1 Flooded Strand
+1 Geier Reach Sanitarium
+1 Glacial Fortress
+1 Hallowed Fountain
+11 Island
+1 Marsh Flats
+1 Misty Rainforest
+11 Plains
+1 Polluted Delta
+1 Scalding Tarn
+1 Temple of Enlightenment
+1 The Biblioplex
+1 Windswept Heath

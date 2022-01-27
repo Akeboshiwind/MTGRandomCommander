@@ -1,0 +1,91 @@
+SB: 1 Mathas, Fiend Seeker
+1 Skirk Ridge Exhumer
+1 Mind's Eye
+1 Tattered Mummy
+1 Nihil Spellbomb
+1 Sangromancer
+1 Hofri Ghostforge
+1 Impact Tremors
+1 Black Market
+1 Welkin Hawk
+1 Koll, the Forgemaster
+1 Cloudshift
+1 Everflowing Chalice
+1 Body Snatcher
+1 Ravenous Chupacabra
+1 Liesa, Shroud of Dusk
+1 Soul of Innistrad
+1 Massacre Girl
+1 Altar of the Brood
+1 Kokusho, the Evening Star
+1 Sell-Sword Brute
+1 Syphon Mind
+1 Chromatic Lantern
+1 Grave Betrayal
+1 Ancient Stone Idol
+1 Star Compass
+1 Malakir Cullblade
+1 Endless Ranks of the Dead
+1 Hunted Witness
+1 Maelstrom Colossus
+1 Ornithopter of Paradise
+1 Black Sun's Zenith
+1 Doomed Dissenter
+1 Goblin Masons
+1 Tectonic Reformation
+1 Taurean Mauler
+1 Necropede
+1 Cavalier of Night
+1 Necroskitter
+1 Fire Snake
+1 Thalia, Guardian of Thraben
+1 Doomskar
+1 Mantle of the Ancients
+1 Disciple of the Vault
+1 Enatu Golem
+1 Dying Wish
+1 Athreos, Shroud-Veiled
+1 Vindictive Vampire
+1 Edgar Markov
+1 Rule of Law
+1 Liliana's Mastery
+1 Geode Rager
+1 Bolas's Citadel
+1 Havoc Demon
+1 Dragon's Hoard
+1 Stitcher's Supplier
+1 Goblin Engineer
+1 Zariel, Archduke of Avernus
+1 Sparring Construct
+1 Fire Covenant
+1 Thought Vessel
+1 Doomwake Giant
+1 Driver of the Dead
+1 Arid Mesa
+1 Battlefield Forge
+1 Blood Crypt
+1 Bloodstained Mire
+1 Caves of Koilos
+1 Clifftop Retreat
+1 Command Tower
+1 Dragonskull Summit
+1 Field of the Dead
+1 Flooded Strand
+1 Godless Shrine
+1 Isolated Chapel
+1 Marsh Flats
+4 Mountain
+3 Plains
+1 Polluted Delta
+1 Sacred Foundry
+1 Scalding Tarn
+1 Scavenger Grounds
+1 Sulfurous Springs
+5 Swamp
+1 Tectonic Edge
+1 Temple of Malice
+1 Temple of Silence
+1 Temple of Triumph
+1 Verdant Catacombs
+1 Windswept Heath
+1 Wooded Foothills

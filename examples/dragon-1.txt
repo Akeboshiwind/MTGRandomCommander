@@ -1,0 +1,97 @@
+SB: 1 Tiamat
+1 Scourge of Kher Ridges
+1 Minion of the Mighty
+1 Ilharg, the Raze-Boar
+1 Nalathni Dragon
+1 Obsidian Charmaw
+1 Magda, Brazen Outlaw
+1 Sylvia Brightspear
+1 Despark
+1 Saheeli, Sublime Artificer
+1 Explosive Vegetation
+1 Throne of the God-Pharaoh
+1 Savage Ventmaw
+1 Sprite Dragon
+1 Corpsejack Menace
+1 Mulldrifter
+1 Two-Headed Dragon
+1 Omniscience
+1 Wrath of God
+1 Expedition Map
+1 Belltoll Dragon
+1 Goblin Electromancer
+1 Rapid Hybridization
+1 Hellkite Hatchling
+1 Coiling Oracle
+1 Draconic Roar
+1 Herald's Horn
+1 Dragon's Disciple
+1 Anointed Procession
+1 Pyromancer's Goggles
+1 Incubation Druid
+1 Oros, the Avenger
+1 Nissa, Vital Force
+1 Jaded Sell-Sword
+1 Verix Bladewing
+1 Blind Obedience
+1 Archfiend of Depravity
+1 Arcades Sabboth
+1 Tainted Pact
+1 Magus of the Wheel
+1 Past in Flames
+1 Draconic Intervention
+1 Chandra's Ignition
+1 Dragonlord's Servant
+1 Pearl Dragon
+1 Leyline Tyrant
+1 Gadrak, the Crown-Scourge
+1 Chaos Dragon
+1 Tarox Bladewing
+1 Reanimate
+1 Hullbreaker Horror
+1 Silumgar's Scorn
+1 Slumbering Dragon
+1 Tormenting Voice
+1 Frantic Search
+1 The Ur-Dragon
+1 Dragonspeaker Shaman
+1 Assemble the Legion
+1 Icingdeath, Frost Tyrant
+1 Rakdos Pit Dragon
+1 Wheel of Misfortune
+1 Dragon Tempest
+1 Tendershoot Dryad
+1 Arid Mesa
+1 Blood Crypt
+1 Bloodstained Mire
+1 Breeding Pool
+1 Clifftop Retreat
+1 Command Tower
+1 Dragonskull Summit
+1 Drowned Catacomb
+1 Flooded Strand
+2 Forest
+1 Gargoyle Castle
+1 Glacial Fortress
+1 Godless Shrine
+1 Hallowed Fountain
+1 Hinterland Harbor
+1 Island
+1 Marsh Flats
+1 Misty Rainforest
+2 Mountain
+1 Overgrown Tomb
+1 Plains
+1 Polluted Delta
+1 Sacred Foundry
+1 Scalding Tarn
+1 Slayers' Stronghold
+1 Steam Vents
+1 Stomping Ground
+2 Swamp
+1 Temple Garden
+1 Unstable Frontier
+1 Verdant Catacombs
+1 Watery Grave
+1 Windswept Heath
+1 Wooded Foothills
