@@ -136,7 +136,7 @@ def get_lands(commander):
 
 if __name__ == "__main__":
     # Setup
-    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+    logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
     # Get cards for deck
     theme_query = get_theme()
