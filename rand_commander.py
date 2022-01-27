@@ -16,6 +16,17 @@ LAND_COUNT = 37
 class ThemeSelector:
     themes = [
         "(otag:synergy-sorcery or t:sorcery)",
+        "(otag:synergy-artifact or t:artifact)",
+        "(otag:synergy-attacker or otag:synergy-attack-self or o:attack)",
+        "(otag:synergy-enchantment or t:enchantment)",
+        "(otag:synergy-equipment or t:equipment)",
+        "(otag:synergy-sacrifice or o:dies)",
+        "(otag:pp-counters-matter or (o:+1 and o:counter))",
+        "(otag:tribal-dragon or t:dragon)",
+        "(otag:tribal-zombie or t:zombie)",
+        "(otag:tribal-vampire or t:vampire)",
+        "(otag:tribal-rogue or t:rogue)",
+        "(otag:tribal-human or t:human)",
     ]
 
     def __init__(self, themes=None):
