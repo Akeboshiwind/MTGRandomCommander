@@ -153,7 +153,7 @@ class CachedCards:
         if len(cards) == 0:
             raise Exception("Cache empty")
 
-        idx = random.randint(0, len(cards))
+        idx = random.randint(0, len(cards)-1)
         card = cards[idx]
         cards.pop(idx)
 
